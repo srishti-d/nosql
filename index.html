@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+{% extends 'layout.html' %}
+
+{% block content %}
+<style>
+    body 
+    {
+    background-image: url('https://img.freepik.com/premium-photo/pills-pill-bottles-pink-backgroundblue-capsule-pills-spread-out-white-plastic-drug_387864-5805.jpg?w=1060');
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100px;
+    }   
+    div.transbox
+    {
+    margin: 30px;
+    background-color: #ffffff;
+    opacity: 0.6;
+    font-style: normal;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    padding: 60px;
+    }
+    .button1
+    {
+    background-color:pink; 
+    border: none;
+    color: black;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display:inline-block;
+    font-size: 15px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+
+    #Gender{
+      width : 538px;
+      height : 38.5px;
+      border : 1px solid rgba(0, 0, 0, 0.3);
+      opacity : 0.6;
+      border-radius: 3px;
+
+    }
+    #Smoker{
+      width : 538px;
+      height : 38.5px;
+      border : 1px solid rgba(0, 0, 0, 0.3);
+      opacity : 0.6;
+      border-radius: 3px;
+
+
+    }
+</style>
+<body>
+    <div class="transbox"><center>
+      <div class="container">
+        <h2> <b> Medical Charges Analysis </b> </h2>
+        <h4> Please enter your details:</h4>
+        <form action="#" method="post">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Age:</label>
+                <input type="text" class="form-control" name="Age" placeholder="Age">
+              </div>
+            </div>
+      
+            <div class="col-6">
+              <div class="form-group">
+                <label for="exampleInputPassword1">Gender:</label><br>
+                <!--<input type="text" class="form-control" name="Gender" placeholder="Gender">-->
+                <select name="Gender" id="Gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Transgender">Transgender</option>
+                <option value="Non-Binary">Non-binary</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">BMI:</label>
+                <input type="text" class="form-control" name="BMI" placeholder="BMI">
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="exampleInputPassword1">Children:</label>
+                <input type="text" class="form-control" name="Children" placeholder="Children">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Smoker:</label><br>
+                <!--<input type="text" class="form-control" name="Smoker" placeholder="Smoker">-->
+                <select name="Smoker" id="Smoker">
+                <option value="True">True</option>
+                <option value="False">False</option>
+              </select>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label for="exampleInputPassword1">Charges:</label>
+                <input type="text" class="form-control" name="Charges" placeholder="Charges">
+              </div>
+            </div>
+          </div>
+
+          <br>
+   
+          <button onclick="myFunction1()" type="submit" class="button1">Submit</button>
+          <script>
+            function myFunction1() {
+              var txt;
+              if (confirm("Data successfully submitted!")) {
+                txt = "Thank you for your response.";
+              } 
+              document.getElementById("demo").innerHTML = txt;
+            }
+            </script>
+            <br> <br>
+            <a href = "http://127.0.0.1/xyz"> Click here to get analysis for different age groups</a>
+
+        </form>
+      </div>
+    </div>
+      
+      <br>
+      
+      <div class="container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Age</th>
+                  <th scope="col">Gender</th>
+                  <th scope="col">BMI</th>
+                  <th scope="col">Children</th>
+                  <th scope="col">Smoker</th>
+                  <th scope="col">Charges</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for datas in data|reverse %}
+                  <tr>
+                  <td>{{ datas['Age'] }}</td>
+                  <td>{{ datas['Gender'] }}</td>
+                  <td>{{ datas['BMI'] }}</td>
+                  <td>{{ datas['Children'] }}</td>
+                  <td>{{ datas['Smoker'] }}</td>
+                  <td>{{ datas['Charges'] }}</td>
+
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modaledit{{ datas['_id']['$oid'] }}">Update</button></td>
+                <div class="form-group">
+                  <td><a href="/delete/{{ datas['_id']['$oid'] }}"><button type="button" class="btn btn-danger" data-toggle="modal" onclick="myFunction2()" class="button1" type="submit">Delete</button></a></td>
+          
+                  <script>
+                   function myFunction2() {
+                     var txt;
+                     if (confirm("Data successfully deleted!")) {
+                       txt = "Thank you for your response.";
+                     } 
+                     document.getElementById("demo").innerHTML = txt;
+                   }
+                   </script>
+               </div>
+
+                  
+                  
+  </form>
+              </a>
+                <div id="modaledit{{ datas['_id']['$oid'] }}" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">Update Information</h4>
+                           <button type="button" class="close" data-dismiss="modal">&times;</button>
+                           
+                        </div>
+                        <div class="modal-body">
+                           <form action="/update/{{ datas['_id']['$oid'] }}" method="POST">
+               
+               
+                              <div class="form-group">
+                                 <label>Age:</label>
+                                 <input type="text" class="form-control" name="Age" value="{{ datas['Age'] }}">
+                              </div>
+              
+                              <div class="form-group">
+                                 <label>Gender:</label>
+                                 <input type="text" class="form-control" name="Gender" value="{{datas['Gender']}}">
+                              </div>
+               
+               
+                              <div class="form-group">
+                                 <label>BMI:</label>
+                                 <input type="text" class="form-control" name="BMI" value="{{datas['BMI']}}">
+                              </div>
+
+                              <div class="form-group">
+                                <label>Children:</label>
+                                <input type="text" class="form-control" name="Children" value="{{datas['Children']}}">
+                             </div>
+
+                             <div class="form-group">
+                              <label>Smoker:</label>
+                              <input type="text" class="form-control" name="Smoker" value="{{datas['Smoker']}}">
+                           </div>
+
+                           <div class="form-group">
+                            <label>Charges:</label>
+                            <input type="text" class="form-control" name="Charges" value="{{datas['Charges']}}">
+                         </div>
+               
+                            <br>
+                              <div class="form-group">
+                                 <button onclick="myFunction3()" class="button1" type="submit">Update</button>
+                                 <script>
+                                  function myFunction3() {
+                                    var txt;
+                                    if (confirm("Data successfully updated!")) {
+                                      txt = "Thank you for your response.";
+                                    } 
+                                    document.getElementById("demo").innerHTML = txt;
+                                  }
+                                  </script>
+                              </div>
+               
+               
+                           </form>
+               
+               
+                        </div>
+               
+                        <br>
+                        <div class="modal-footer">
+               
+               
+                           <button type="button" class="button1" data-dismiss="modal">Close</button>
+               
+               
+                        </div>
+               
+               
+                     </div>
+               
+               
+                  </div>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock content %}</center>
+</div>
+</body>
+</html>
